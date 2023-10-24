@@ -55,7 +55,7 @@ If you do not have any required binaries or non-default JMeter plugins, the inst
 5. Start the JMeter container by creating a deployment.
 
     ```text
-    oc create -f https://raw.githubusercontent.com/mmondics/jmeter-openshift/main/openshift/jmeter-deployment.yaml?token=GHSAT0AAAAAACIGOE2RT5ZGFSIBNTUSIG4MZJX5RIQ
+    oc create -f https://raw.githubusercontent.com/mmondics/jmeter-openshift/main/openshift/jmeter-deployment.yaml
     ```
 
 6. Look at the `jmeter-container` pod logs to check that the result of the JMeter test is as expected.
