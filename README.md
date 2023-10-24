@@ -23,10 +23,10 @@ If you do not have any required binaries or non-default JMeter plugins, the inst
 
     The configmap must be named `jmeter-test` unless you edit the deployment YAML to reflect your name change.
     
-    In the example below `AcmeAir-microservices.jmx` is a test plan in the current working directory.
+    The test plan must be named `test-plan.jmx`.
 
     ```text
-    oc create configmap jmeter-test --from-file AcmeAir-microservices.jmx
+    oc create configmap jmeter-test --from-file test-plan.jmx
     ```
 
 4. Create a configMap that contains test parameters to pass in the JMeter test.

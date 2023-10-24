@@ -34,4 +34,4 @@ RUN ln -s /etc/jmeter-driver/AcmeAir-microservices.jmx /driver
 COPY ./script/jmeter.properties /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter.properties
 
 # Indicate the default command to run
-CMD jmeter -n -t /driver/AcmeAir-microservices.jmx -DusePureIDs=true -JUSER=9999 -JHOST=$HOST -JPORT=$PORT -JTHREAD=$THREAD -JRAMP=$RAMP -JDELAY=$DELAY -j /driver/jMeter-log
+CMD jmeter -n -t /driver/test-plan.jmx -DusePureIDs=true -JUSER=9999 -JHOST=$HOST -JPORT=$PORT -JTHREAD=$THREAD -JRAMP=$RAMP -JDELAY=$DELAY -j /driver/jMeter-log
