@@ -36,7 +36,7 @@ spec:
           terminationMessagePolicy: File
           envFrom:
             - configMapRef:
-                name: cm-acmeair
+                name: cm-params
           image: >-
             quay.io/mmondics/jmeter-container:manifest-v2
       restartPolicy: Always
