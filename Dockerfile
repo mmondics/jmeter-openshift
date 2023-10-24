@@ -10,6 +10,7 @@ ARG RAMP=$RAMP
 ARG DELAY=$DELAY
 
 # Download and unpack the JMeter tar file
+# TODO make this run as non-root
 USER root
 
 RUN cd /opt \
@@ -18,20 +19,17 @@ RUN cd /opt \
     && tar xzf apache-jmeter-${JMETER_VERSION}.tgz \
     && rm apache-jmeter-${JMETER_VERSION}.tgz
 
-# Create a symlink to the jmeter process in a normal bin directory
+# Create a symlink to the JMeter process in a normal bin directory
 RUN ln -s /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter /usr/local/bin
 
-# Copy acmeair jmeter script and required files
-RUN mkdir /driver
-ADD script/ /driver
-RUN mv /driver/acmeair-jmeter-2.0.0-SNAPSHOT.jar /opt/apache-jmeter-${JMETER_VERSION}/lib/ext && \
-    mv /driver/json-simple-1.1.1.jar /opt/apache-jmeter-${JMETER_VERSION}/lib/ext
+# Copy JMeter script and required files
+RUN mkdir /test-plan
+ADD test-plan/ /test-plan
+RUN mv /test-plan/libraries/* /opt/apache-jmeter-${JMETER_VERSION}/lib/ext
+RUN mv /test-plan/jmeter.properties /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter.properties
 
-# Create a symlink to the jmeter script mounted by configmap
-RUN ln -s /etc/jmeter-driver/AcmeAir-microservices.jmx /driver
-
-# Copying custom property file
-COPY ./script/jmeter.properties /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter.properties
+# Create a symlink to the JMeter script mounted by configmap
+RUN ln -s /etc/jmeter-driver/test-plan.jmx /test-plan
 
 # Indicate the default command to run
-CMD jmeter -n -t /driver/test-plan.jmx -DusePureIDs=true -JUSER=9999 -JHOST=$HOST -JPORT=$PORT -JTHREAD=$THREAD -JRAMP=$RAMP -JDELAY=$DELAY -j /driver/jMeter-log
+CMD jmeter -n -t /test-plan/test-plan.jmx -DusePureIDs=true -JUSER=9999 -JHOST=$HOST -JPORT=$PORT -JTHREAD=$THREAD -JRAMP=$RAMP -JDELAY=$DELAY -j /test-plan/jMeter-log
