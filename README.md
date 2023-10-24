@@ -1,4 +1,7 @@
 # Running JMeter Container in OpenShift
+The container image used in this repository was originally built to run JMeter tests against an AcmeAir application. Thus, the container image includes required binaries for AcmeAir. You are free to remove these binaries or add binaries of your own by editing the [Dockerfile](./Dockerfile) and then reflecting this change in your [jmeter-deployment.yaml](/openshift/jmeter-deployment.yaml).
+
+If you do not have any required binaries or non-default JMeter plugins, the instructions below should work for your JMeter test plan.
 
 1. Change into the project where you want the JMeter container to run.
 
@@ -8,7 +11,7 @@
     oc project acmeair
     ```
 
-1. Grant elevated privileges to the `default` serviceaccount.
+2. Grant elevated privileges to the `default` serviceaccount.
 
     This is required as JMeter runs as root.
 
@@ -16,7 +19,7 @@
     oc adm policy add-scc-to-user anyuid -z default
     ```
 
-1. Create a configMap that contains your JMeter test plan.
+3. Create a configMap that contains your JMeter test plan.
 
     The configmap must be named `jmeter-test` unless you edit the deployment YAML to reflect your name change.
     
@@ -26,7 +29,7 @@
     oc create configmap jmeter-test --from-file AcmeAir-microservices.jmx
     ```
 
-1. Create a configMap that contains test parameters to pass in the JMeter test.
+4. Create a configMap that contains test parameters to pass in the JMeter test.
 
     Required parameters are:
 
@@ -49,8 +52,22 @@
 
     The configMap must be named `cm-params` unless you edit the deployment YAML to reflect your name change.
 
-1. Start the JMeter container by creating a deployment.
+5. Start the JMeter container by creating a deployment.
 
     ```text
-    oc create -f <TBD>
+    oc create -f https://raw.githubusercontent.com/mmondics/jmeter-openshift/main/openshift/jmeter-deployment.yaml?token=GHSAT0AAAAAACIGOE2RT5ZGFSIBNTUSIG4MZJX5RIQ
+    ```
+
+6. Look at the `jmeter-container` pod logs to check that the result of the JMeter test is as expected.
+
+## Troubleshooting
+1. Check the `jmeter-container` pod logs and events to start identifying the issue.
+
+1. Check the `/driver/jMeter-log` log file in the pod for error messages.
+
+    If your pod is crashlooping/not starting, you can start a debug pod to check the logs.
+
+    ```text
+    oc debug pod/<jmeter_pod>
+    more /driver/jMeter-log
     ```
