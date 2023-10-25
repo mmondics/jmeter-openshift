@@ -38,7 +38,7 @@ spec:
             - configMapRef:
                 name: cm-params
           image: >-
-            quay.io/mmondics/jmeter-container:manifest-v3
+            quay.io/mmondics/jmeter-container:latest
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst

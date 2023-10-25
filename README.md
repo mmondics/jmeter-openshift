@@ -1,11 +1,11 @@
 # Running JMeter Container in OpenShift
 The container image used in this repository was originally built to run JMeter tests against an AcmeAir application. Thus, the container image includes required binaries for AcmeAir. You are free to remove these binaries or add binaries of your own by dropping files in the [test-plan directory](/test-plan/) along with any required libraries in the [test-plan/libraries directory](/test-plan/libraries/). You then should update the [jmeter-deployment.yaml](/openshift/jmeter-deployment.yaml) to reflect your customized image.
 
-If you do not have any required binaries libraries, the instructions below should work for your JMeter test plan.
+If you do not have any required binaries or libraries, the instructions below should work for your JMeter test plan.
 
 1. Change into the project where you want the JMeter container to run.
 
-    In these instructions, the project name is `acmeair`.
+    Replace `<project_name>` with the correct name.
 
     ```text
     oc project <project_name>

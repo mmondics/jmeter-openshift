@@ -1,8 +1,8 @@
-# build on the top of Java image
+# build on the top of open-liberty image
 FROM open-liberty:latest
 
 # JMeter Version
-ARG JMETER_VERSION="5.5"
+ARG JMETER_VERSION="5.6.2"
 ARG HOST=$HOST
 ARG PORT=$PORT
 ARG THREAD=$THREAD
